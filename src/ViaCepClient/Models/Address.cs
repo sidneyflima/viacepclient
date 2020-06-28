@@ -1,10 +1,12 @@
+using ViaCepClient.Validators;
+
 namespace ViaCepClient.Models
 {
     /// <summary>
     /// Address represents informations related to an 
     /// address in order to query related cep information
     /// </summary>
-    public class Address
+    public sealed class Address: ValidatableModel<Address>
     {
         /// <summary>
         /// StateAbbreviation represents initials which represents a state. 

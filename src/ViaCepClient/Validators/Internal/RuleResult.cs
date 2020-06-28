@@ -1,43 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace ViaCepClient.Validators.Internal
 {
     /// <summary>
-    /// Represents a rule result
+    /// RuleResult represents a result for applied rule specification
     /// </summary>
     internal struct RuleResult: IRuleResult
     {
         /// <summary>
-        /// IsValid returns true if value is valid for rule specification
+        /// Check if rule is valid
         /// </summary>
         public bool IsValid { get; }
 
         /// <summary>
-        /// Error returns an error message if value is invalid
+        /// Get error message
         /// </summary>
-        public IError Error { get; }
+        public string ErrorMessage { get; }
 
         /// <summary>
-        /// Represents a rule result
+        /// RuleResult represents a result for applied rule specification
         /// </summary>
-        public RuleResult(bool isValid, IError error)
+        public RuleResult(bool isValid, string errorMessage)
         {
-            IsValid = isValid;
-            Error   = error;
-        }
-
-        /// <summary>
-        /// Creates a new valid RuleResult
-        /// </summary>
-        public static RuleResult ValidRuleResult()
-        {
-            return new RuleResult(true, null);
-        }
-
-        /// <summary>
-        /// Creates a new invalid RuleResult
-        /// </summary>
-        public static RuleResult InvalidRuleResult(IError error)
-        {
-            return new RuleResult(false, error);
+            IsValid      = isValid;
+            ErrorMessage = errorMessage;
         }
     }
 }

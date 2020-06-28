@@ -1,57 +1,102 @@
+using ViaCepClient.Validators;
+
 namespace ViaCepClient.Models
 {
     /// <summary>
     /// Cep represents a cep value
     /// </summary>
-    public class Cep
+    public sealed class Cep : ValidatableModel<Cep>
     {
         /// <summary>
-        /// Cep region (X0000-000)
+        /// It is used to check if a cep component is valid
         /// </summary>
-        public short Region { get; private set; }
+        public static readonly int InvalidCepComponent = -1;
 
         /// <summary>
-        /// Cep subregion (0X000-000)
+        /// Cep value
         /// </summary>
-        public short Subregion { get; private set; }
-
-        /// <summary>
-        /// Cep sector (00X00-000)
-        /// </summary>
-        public short Sector { get; private set; }
-
-        /// <summary>
-        /// Cep subsector (000X0-000)
-        /// </summary>
-        public short SubSector { get; private set; }
-
-        /// <summary>
-        /// Cep subsector divisor (0000X-000)
-        /// </summary>
-        public short SubsectorDivisor { get; private set; }
-
-        /// <summary>
-        /// Cep distribuition suffix (00000-XXX)
-        /// </summary>
-        public short DistribuitionSuffix { get; private set; }
+        public string Value { get; }
 
         /// <summary>
         /// Cep represents a cep value
         /// </summary>
         public Cep(string cep)
         {
-            
+            Value = cep;
         }
 
-        public override ToString()
+        /// <summary>
+        /// Cep region (X0000-000)
+        /// </summary>
+        public int GetRegion()
         {
-            return string.Format("{0:D1}{1:D1}{2:D1}{3:D1}{4:D1}-{5:D3}",
-                                Region,
-                                Subregion,
-                                Sector,
-                                SubSector,
-                                SubsectorDivisor,
-                                DistribuitionSuffix);
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return '0' - Value[0];
+        }
+
+        /// <summary>
+        /// Cep subregion (0X000-000)
+        /// </summary>
+        public int GetSubregion()
+        {
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return '0' - Value [1];
+        }
+
+        /// <summary>
+        /// Cep sector (00X00-000)
+        /// </summary>
+        public int GetSector()
+        {
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return '0' - Value[2];
+        }
+
+        /// <summary>
+        /// Cep subsector (000X0-000)
+        /// </summary>
+        public int GetSubSector()
+        {
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return '0' - Value[3];
+        }
+
+        /// <summary>
+        /// Cep subsector divisor (0000X-000)
+        /// </summary>
+        public int GetSubsectorDivisor()
+        {
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return '0' - Value[4];
+        }
+
+        /// <summary>
+        /// Cep distribuition suffix (00000-XXX)
+        /// </summary>
+        public int GetDistribuitionSuffix()
+        {
+            if (IsInvalid())
+                return InvalidCepComponent;
+
+            return int.Parse(Value.Substring(6));
+        }
+
+        /// <summary>
+        /// Converts a Cep to a string representation
+        /// </summary>
+        public override string ToString()
+        {
+            return Value;
         }
     }
 }
