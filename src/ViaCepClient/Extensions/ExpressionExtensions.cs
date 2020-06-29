@@ -6,7 +6,7 @@ namespace ViaCepClient.Extensions
     /// <summary>
     /// Extension methods for expressions
     /// </summary>
-    public static class ExpressionExtensions
+    internal static class ExpressionExtensions
     {
         /// <summary>
         /// If expression for a property, get property name

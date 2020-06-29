@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ViaCepClient.Validators.Internal.Rules;
+﻿using ViaCepClient.Validators.Internal.Rules;
 
-namespace ViaCepClient.Validators
+namespace ViaCepClient.Validators.Internal
 {
     /// <summary>
     /// Rule specifications
     /// </summary>
-    public static class RuleSpecifications
+    internal static class RuleFactory
     {
         /// <summary>
         /// Create a rule for string not null or empty

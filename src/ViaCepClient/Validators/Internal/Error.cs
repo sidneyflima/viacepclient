@@ -1,4 +1,4 @@
-namespace ViaCepClient.Validators
+namespace ViaCepClient.Validators.Internal
 {
     /// <summary>
     /// Error represents a validation error
