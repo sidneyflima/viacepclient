@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using ViaCepClient.Validators.Internal;
 
 namespace ViaCepClient.Validators
@@ -18,6 +16,11 @@ namespace ViaCepClient.Validators
         private readonly List<IError> _errors;
 
         /// <summary>
+        /// Get Rule Collection
+        /// </summary>
+        private readonly RuleSpecifications<TModel> _ruleSpecifications;
+
+        /// <summary>
         /// Checks if has been validated
         /// </summary>
         private bool _hasBeenValidated;
@@ -25,12 +28,7 @@ namespace ViaCepClient.Validators
         /// <summary>
         /// Get Rule Collection
         /// </summary>
-        private readonly RuleCollection<TModel> _ruleCollection;
-
-        /// <summary>
-        /// Get Rule Collection
-        /// </summary>
-        protected IRuleCollection<TModel> RuleCollection => _ruleCollection;
+        protected IRuleSpecifications<TModel> RuleSpecifications => _ruleSpecifications;
 
         /// <summary>
         /// BaseValidatableModel represents a validatable model, in which
@@ -38,8 +36,8 @@ namespace ViaCepClient.Validators
         /// </summary>
         public ValidatableModel()
         {
-            _ruleCollection = new RuleCollection<TModel>();
-            _errors         = new List<IError>();
+            _ruleSpecifications = new RuleSpecifications<TModel>();
+            _errors             = new List<IError>();
         }
 
         /// <summary>
@@ -146,6 +144,16 @@ namespace ViaCepClient.Validators
         /// model property, the implementation must specify a error by
         /// adding a new error using 'AddError' method
         /// </summary>
-        protected virtual void PerformValidation() { }
+        protected virtual void PerformValidation() 
+        {
+            // foreach(var propertySpecification in _ruleSpecifications.GetRuleSpecificationProperties())
+            // {
+            //     var propertyName = propertySpecification.PropertyName;
+            //     foreach(var result in propertySpecification.ApplyRules())
+            //     {
+            //         AddError(new Error(result.ErrorCode, propertyName, result.ErrorMessage));
+            //     }
+            // }
+        }
     }
 }

@@ -1,9 +1,4 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ViaCepClient.Validators.Internal
+﻿namespace ViaCepClient.Validators.Internal
 {
     /// <summary>
     /// BaseRule represents an abstract struture for rule specifications

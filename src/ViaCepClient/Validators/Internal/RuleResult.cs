@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ViaCepClient.Validators.Internal
+﻿namespace ViaCepClient.Validators.Internal
 {
     /// <summary>
     /// RuleResult represents a result for applied rule specification

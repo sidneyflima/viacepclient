@@ -116,6 +116,7 @@ namespace ViaCepClient.Testing.Validations
                 Password = password;
             }
 
+            /*
             protected override void PerformValidation()
             {
                 if (string.IsNullOrEmpty(Username))
@@ -124,6 +125,7 @@ namespace ViaCepClient.Testing.Validations
                 if (string.IsNullOrEmpty(Password))
                     AddError(new Error("INVALID_PASSWORD", "Password", "Password is invalid"));
             }
+            */
 
             struct Error : IError
             {
