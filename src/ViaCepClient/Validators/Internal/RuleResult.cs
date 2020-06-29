@@ -11,16 +11,22 @@
         public bool IsValid { get; }
 
         /// <summary>
-        /// Get error message
+        /// Error code
+        /// </summary>
+        public string ErrorCode { get; }
+
+        /// <summary>
+        /// Error Message
         /// </summary>
         public string ErrorMessage { get; }
 
         /// <summary>
         /// RuleResult represents a result for applied rule specification
         /// </summary>
-        public RuleResult(bool isValid, string errorMessage)
+        public RuleResult(bool isValid, string errorCode, string errorMessage)
         {
             IsValid      = isValid;
+            ErrorCode    = errorCode;
             ErrorMessage = errorMessage;
         }
     }

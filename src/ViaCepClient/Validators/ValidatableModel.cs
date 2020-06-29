@@ -16,9 +16,14 @@ namespace ViaCepClient.Validators
         private readonly List<IError> _errors;
 
         /// <summary>
-        /// Get Rule Collection
+        /// Rule specification
         /// </summary>
-        private readonly RuleSpecifications<TModel> _ruleSpecifications;
+        private RuleSpecification<TModel> _ruleSpecification;
+
+        /// <summary>
+        /// Model instance
+        /// </summary>
+        private TModel _instance;
 
         /// <summary>
         /// Checks if has been validated
@@ -26,18 +31,13 @@ namespace ViaCepClient.Validators
         private bool _hasBeenValidated;
 
         /// <summary>
-        /// Get Rule Collection
-        /// </summary>
-        protected IRuleSpecifications<TModel> RuleSpecifications => _ruleSpecifications;
-
-        /// <summary>
         /// BaseValidatableModel represents a validatable model, in which
         /// is able to check if a model is valid
         /// </summary>
         public ValidatableModel()
         {
-            _ruleSpecifications = new RuleSpecifications<TModel>();
-            _errors             = new List<IError>();
+            _errors   = new List<IError>();
+            _instance = default;
         }
 
         /// <summary>
@@ -106,6 +106,21 @@ namespace ViaCepClient.Validators
         }
 
         /// <summary>
+        /// Use rule specification for validation
+        /// </summary>
+        /// <returns></returns>
+        protected IRuleSpecification<TModel> UseRuleSpecification(TModel instance)
+        {
+            if (_instance == null)
+                _instance = instance;
+
+            if (_ruleSpecification == null)
+                _ruleSpecification = new RuleSpecification<TModel>();
+
+            return _ruleSpecification;
+        }
+
+        /// <summary>
         /// Validate a model if has not been validated yet
         /// </summary>
         private void ValidateIfHasNotBeenValidated()
@@ -146,14 +161,17 @@ namespace ViaCepClient.Validators
         /// </summary>
         protected virtual void PerformValidation() 
         {
-            // foreach(var propertySpecification in _ruleSpecifications.GetRuleSpecificationProperties())
-            // {
-            //     var propertyName = propertySpecification.PropertyName;
-            //     foreach(var result in propertySpecification.ApplyRules())
-            //     {
-            //         AddError(new Error(result.ErrorCode, propertyName, result.ErrorMessage));
-            //     }
-            // }
+            foreach (var propertyRules in _ruleSpecification.GetModelPropertyRules())
+            {
+                var propertyName = propertyRules.PropertyName;
+                foreach (var result in propertyRules.ApplyRules(_instance))
+                {
+                    if (!result.IsValid)
+                    {
+                        AddError(new Error(propertyName, result.ErrorCode, result.ErrorMessage));
+                    }
+                }
+            }
         }
     }
 }

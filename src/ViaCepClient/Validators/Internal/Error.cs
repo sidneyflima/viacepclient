@@ -1,4 +1,4 @@
-namespace ViaCepClient.Validators.Internal
+namespace ViaCepClient.Validators
 {
     /// <summary>
     /// Error represents a validation error
@@ -16,18 +16,18 @@ namespace ViaCepClient.Validators.Internal
         public string PropertyName { get; }
 
         /// <summary>
-        /// Message represents the message error
+        /// Error Message
         /// </summary>
-        public string Message { get; }
+        public string ErrorMessage { get; }
 
         /// <summary>
         /// Error represents a validation error
         /// </summary>
-        public Error(string errorCode, string propertyName, string message)
+        public Error(string propertyName, string errorCode, string errorMessage)
         {
             ErrorCode       = errorCode;
+            ErrorMessage    = errorMessage;
             PropertyName    = propertyName;
-            Message         = message;
         }
     }
 }

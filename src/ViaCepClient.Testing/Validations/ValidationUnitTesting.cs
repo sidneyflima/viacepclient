@@ -61,83 +61,59 @@ namespace ViaCepClient.Testing.Validations
             if (string.IsNullOrEmpty(invalidUser.Username) && string.IsNullOrEmpty(invalidUser.Password))
             {
                 invalidUser.GetValidationErrors().Should().HaveCount(2);
-                invalidUser.GetValidationErrors().Should().Contain(e => e.ErrorCode == "INVALID_USERNAME");
-                invalidUser.GetValidationErrors().Should().Contain(e => e.ErrorCode == "INVALID_PASSWORD");
+                invalidUser.GetValidationErrors().Should().Contain(e => e.ErrorCode == "USERNAME_EMPTY" && e.PropertyName == "Username");
+                invalidUser.GetValidationErrors().Should().Contain(e => e.ErrorCode == "PASSWORD_EMPTY" && e.PropertyName == "Password");
             }
             else if (string.IsNullOrEmpty(invalidUser.Username))
             {
                 invalidUser.GetValidationErrors().Should().HaveCount(1);
-                invalidUser.GetValidationErrors().First().Should().Match<IError>(e => e.ErrorCode == "INVALID_USERNAME");                           
+                invalidUser.GetValidationErrors().First().Should().Match<IError>(e => e.ErrorCode == "USERNAME_EMPTY" && e.PropertyName == "Username");                           
             }
             else if (string.IsNullOrEmpty(invalidUser.Password))
             {
                 invalidUser.GetValidationErrors().Should().HaveCount(1);
-                invalidUser.GetValidationErrors().First().Should().Match<IError>(e => e.ErrorCode == "INVALID_PASSWORD");
+                invalidUser.GetValidationErrors().First().Should().Match<IError>(e => e.ErrorCode == "PASSWORD_EMPTY" && e.PropertyName == "Password");
             }
         }
 
         private class User: ValidatableModel<User>
         {
-            private string _userName;
-            public string Username 
-            {
-                get => _userName;
-                private set
-                {
-                    _userName = value;
-                    ReforceRevalidation();
-                }
-            }
-
-            private string _password;
-            public string Password 
-            {
-                get => _password;
-                private set
-                {
-                    _password = value;
-                    ReforceRevalidation();
-                }
-            }
+            public string Username { get; private set; }
+            public string Password { get; private set; }
 
             public User(string username, string password)
             {
                 Username = username;
                 Password = password;
+
+                UseRuleSpecification(this)
+                    .SetRules(u => u.Username, RuleSpecifications.StringNotEmpty("USERNAME_EMPTY", "Username is invalid"))
+                    .SetRules(u => u.Password, RuleSpecifications.StringNotEmpty("PASSWORD_EMPTY", "Password is invalid"));
             }
 
             public void ChangeUsername(string username)
             {
                 Username = username;
+                ReforceRevalidation();
             }
 
             public void ChangePassword(string password)
             {
                 Password = password;
+                ReforceRevalidation();
             }
-
-            /*
-            protected override void PerformValidation()
-            {
-                if (string.IsNullOrEmpty(Username))
-                    AddError(new Error("INVALID_USERNAME", "UserName", "Username is invalid"));
-
-                if (string.IsNullOrEmpty(Password))
-                    AddError(new Error("INVALID_PASSWORD", "Password", "Password is invalid"));
-            }
-            */
 
             struct Error : IError
             {
                 public string ErrorCode { get; }
                 public string PropertyName { get; }
-                public string Message { get; }
+                public string ErrorMessage { get; }
 
-                public Error(string errorCode, string propertyName, string message)
+                public Error(string propertyName, string errorCode, string errorMessage)
                 {
-                    ErrorCode       = errorCode;
-                    PropertyName    = propertyName;
-                    Message         = message;
+                    ErrorCode    = errorCode;
+                    ErrorMessage = errorMessage;
+                    PropertyName = propertyName;
                 }
             }
         }

@@ -16,7 +16,7 @@
         public string ErrorCode { get; }
 
         /// <summary>
-        /// Get error message
+        /// Error Message
         /// </summary>
         public string ErrorMessage { get; }
     }

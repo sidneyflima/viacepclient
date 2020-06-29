@@ -17,8 +17,8 @@ namespace ViaCepClient.Validators
         string PropertyName { get; }
 
         /// <summary>
-        /// Message represents the message error
+        /// Error Message
         /// </summary>
-        string Message { get; }
+        public string ErrorMessage { get; }
     }
 }

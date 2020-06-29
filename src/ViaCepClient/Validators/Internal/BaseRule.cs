@@ -8,14 +8,30 @@
         /// <summary>
         /// Error code assigned to rule specification
         /// </summary>
-        public string ErrorCode { get; }
+        private readonly string _errorCode;
+
+        /// <summary>
+        /// Error message 
+        /// </summary>
+        private readonly string _errorMessage;
+
+        /// <summary>
+        /// Get Default Error Code
+        /// </summary>
+        protected abstract string DefaultErrorCode { get; }
+
+        /// <summary>
+        /// Get Default Error Message
+        /// </summary>
+        protected abstract string DefaultErrorMessage { get; }
 
         /// <summary>
         /// BaseRule represents an abstract struture for rule specifications
         /// </summary>
-        public BaseRule(string errorCode)
+        public BaseRule(string errorCode, string errorMessage)
         {
-            ErrorCode = errorCode;
+            _errorCode    = !string.IsNullOrEmpty(errorCode)     ? errorCode     : DefaultErrorCode;
+            _errorMessage = !string.IsNullOrEmpty(errorMessage)  ? errorMessage  : DefaultErrorMessage;
         }
 
         /// <summary>
@@ -24,20 +40,14 @@
         public IRuleResult ApplyRule(TValue value)
         {
             if (IsRuleValid(value))
-                return new RuleResult(true, null);
+                return new RuleResult(true, null, null);
 
-            string errorMessage = GetFormattedErrorMessage(value);
-            return new RuleResult(false, errorMessage);
+            return new RuleResult(false, _errorCode, _errorMessage);
         }
 
         /// <summary>
         /// Check if rule is valid for value
         /// </summary>
         protected abstract bool IsRuleValid(TValue value);
-
-        /// <summary>
-        /// Check formatted error message if rule is not valid
-        /// </summary>
-        protected abstract string GetFormattedErrorMessage(TValue value);
     }
 }
