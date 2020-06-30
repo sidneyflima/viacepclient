@@ -26,6 +26,17 @@ namespace ViaCepClient.Models
         }
 
         /// <summary>
+        /// Performs model validation. A model is invalid if has any error
+        /// after a validation. Therefore, if there is any invalid
+        /// model property, the implementation must specify a error by
+        /// adding a new error using 'AddError' method
+        /// </summary>
+        protected override void PerformValidation()
+        {
+
+        }
+
+        /// <summary>
         /// Cep region (X0000-000)
         /// </summary>
         public int GetRegion()

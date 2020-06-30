@@ -119,24 +119,10 @@ namespace ViaCepClient.Testing.Validations
             protected override void PerformValidation()
             {
                 if (string.IsNullOrEmpty(Username))
-                    AddError(new Error("INVALID_USERNAME", "UserName", "Username is invalid"));
+                    AddError("UserName", "INVALID_USERNAME", "Username is invalid");
 
                 if (string.IsNullOrEmpty(Password))
-                    AddError(new Error("INVALID_PASSWORD", "Password", "Password is invalid"));
-            }
-
-            struct Error : IError
-            {
-                public string ErrorCode { get; }
-                public string PropertyName { get; }
-                public string ErrorMessage { get; }
-
-                public Error(string errorCode, string propertyName, string message)
-                {
-                    ErrorCode       = errorCode;
-                    PropertyName    = propertyName;
-                    ErrorMessage    = message;
-                }
+                    AddError("Password", "INVALID_PASSWORD", "Password is invalid");
             }
         }
     }

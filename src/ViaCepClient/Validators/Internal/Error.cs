@@ -3,7 +3,7 @@ namespace ViaCepClient.Validators.Internal
     /// <summary>
     /// Error represents a validation error
     /// </summary>
-    internal struct Error: IError
+    public struct Error: IError
     {
         /// <summary>
         /// Code represents a unique code representation for error

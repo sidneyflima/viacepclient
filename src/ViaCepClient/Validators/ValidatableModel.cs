@@ -16,16 +16,6 @@ namespace ViaCepClient.Validators
         private readonly List<IError> _errors;
 
         /// <summary>
-        /// Rule specification
-        /// </summary>
-        private RuleSpecification<TModel> _ruleSpecification;
-
-        /// <summary>
-        /// Model instance
-        /// </summary>
-        private TModel _instance;
-
-        /// <summary>
         /// Checks if has been validated
         /// </summary>
         private bool _hasBeenValidated;
@@ -36,8 +26,7 @@ namespace ViaCepClient.Validators
         /// </summary>
         public ValidatableModel()
         {
-            _errors   = new List<IError>();
-            _instance = default;
+            _errors = new List<IError>();
         }
 
         /// <summary>
@@ -100,24 +89,9 @@ namespace ViaCepClient.Validators
         /// <summary>
         /// Adds an error
         /// </summary>
-        protected void AddError(IError error)
+        protected void AddError(string propertyName, string errorCode, string errorMessage)
         {
-            _errors.Add(error);
-        }
-
-        /// <summary>
-        /// Use rule specification for validation
-        /// </summary>
-        /// <returns></returns>
-        protected IRuleSpecification<TModel> UseRuleSpecification(TModel instance)
-        {
-            if (_instance == null)
-                _instance = instance;
-
-            if (_ruleSpecification == null)
-                _ruleSpecification = new RuleSpecification<TModel>();
-
-            return _ruleSpecification;
+            _errors.Add(new Error(propertyName, errorCode, errorMessage));
         }
 
         /// <summary>
@@ -159,19 +133,6 @@ namespace ViaCepClient.Validators
         /// model property, the implementation must specify a error by
         /// adding a new error using 'AddError' method
         /// </summary>
-        protected virtual void PerformValidation() 
-        {
-            foreach (var propertyRules in _ruleSpecification.GetModelPropertyRules())
-            {
-                var propertyName = propertyRules.PropertyName;
-                foreach (var result in propertyRules.ApplyRules(_instance))
-                {
-                    if (!result.IsValid)
-                    {
-                        AddError(new Error(propertyName, result.ErrorCode, result.ErrorMessage));
-                    }
-                }
-            }
-        }
+        protected abstract void PerformValidation();
     }
 }
