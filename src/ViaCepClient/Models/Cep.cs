@@ -1,3 +1,4 @@
+using System;
 using ViaCepClient.Validators;
 
 namespace ViaCepClient.Models
@@ -15,14 +16,20 @@ namespace ViaCepClient.Models
         /// <summary>
         /// Cep value
         /// </summary>
-        public string Value { get; }
+        public string CepValue { get; }
+
+        /// <summary>
+        /// If cep contains a hyphen
+        /// </summary>
+        public bool HasHyphen { get; }
 
         /// <summary>
         /// Cep represents a cep value
         /// </summary>
         public Cep(string cep)
         {
-            Value = cep;
+            CepValue  = cep;
+            HasHyphen = cep?.Contains('-') ?? false;
         }
 
         /// <summary>
@@ -33,7 +40,11 @@ namespace ViaCepClient.Models
         /// </summary>
         protected override void PerformValidation()
         {
+            if (!CepValue.NotNullOrEmpty())
+                AddError(nameof(CepValue), "CEP_REQUIRED", "Cep is required");
 
+            if (!CepValue.RegexMatches(@"^(\d{5}\-\d{3})|(\d{8})$"))
+                AddError(nameof(CepValue), "CEP_INVALID_PATTERN", "Cep pattern is required");
         }
 
         /// <summary>
@@ -44,7 +55,7 @@ namespace ViaCepClient.Models
             if (IsInvalid())
                 return InvalidCepComponent;
 
-            return '0' - Value[0];
+            return CepValue[0] - '0';
         }
 
         /// <summary>
@@ -55,7 +66,7 @@ namespace ViaCepClient.Models
             if (IsInvalid())
                 return InvalidCepComponent;
 
-            return '0' - Value [1];
+            return CepValue[1] - '0';
         }
 
         /// <summary>
@@ -66,7 +77,7 @@ namespace ViaCepClient.Models
             if (IsInvalid())
                 return InvalidCepComponent;
 
-            return '0' - Value[2];
+            return CepValue[2] - '0';
         }
 
         /// <summary>
@@ -77,7 +88,7 @@ namespace ViaCepClient.Models
             if (IsInvalid())
                 return InvalidCepComponent;
 
-            return '0' - Value[3];
+            return CepValue[3] - '0';
         }
 
         /// <summary>
@@ -88,7 +99,7 @@ namespace ViaCepClient.Models
             if (IsInvalid())
                 return InvalidCepComponent;
 
-            return '0' - Value[4];
+            return CepValue[4] - '0';
         }
 
         /// <summary>
@@ -98,8 +109,11 @@ namespace ViaCepClient.Models
         {
             if (IsInvalid())
                 return InvalidCepComponent;
+            
+            if (HasHyphen)
+                return int.Parse(CepValue.Substring(6));
 
-            return int.Parse(Value.Substring(6));
+            return int.Parse(CepValue.Substring(5));
         }
 
         /// <summary>
@@ -107,7 +121,7 @@ namespace ViaCepClient.Models
         /// </summary>
         public override string ToString()
         {
-            return Value;
+            return CepValue;
         }
     }
 }

@@ -46,7 +46,23 @@ namespace ViaCepClient.Models
         /// </summary>
         protected override void PerformValidation()
         {
+            if (!StateAbbreviation.NotNullOrEmpty())
+                AddError(nameof(StateAbbreviation), "STATE_ABBREVIATION_REQUIRED", "State Abbreviation is required");
 
+            if (!City.NotNullOrEmpty())
+                AddError(nameof(City), "CITY_REQUIRED", "City is required");
+
+            if (!StreetName.NotNullOrEmpty())
+                AddError(nameof(StreetName), "STREET_NAME_REQUIRED", "Street name is required");
+
+            if (!StateAbbreviation.HasLength(2))
+                AddError(nameof(StateAbbreviation), "STATE_ABBREVIATION_INVALID_LENGTH", "State Abbreviation length must be 2");
+
+            if (!City.HasMinLength(3))
+                AddError(nameof(City), "CITY_INVALID_LENGTH", "City length must be at least 3");
+
+            if (!StreetName.HasMinLength(3))
+                AddError(nameof(StreetName), "STREET_NAME_INVALID_LENGTH", "Street name length must be at least 3");
         }
     }
 }
