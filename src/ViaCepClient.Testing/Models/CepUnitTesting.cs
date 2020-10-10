@@ -33,8 +33,8 @@ namespace ViaCepClient.Testing.Models
             cep.HasHyphen.Should().BeFalse();
 
             cep.GetValidationErrors().Should().NotBeEmpty();
-            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == "CEP_REQUIRED");
-            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == "CEP_INVALID_PATTERN");
+            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == Cep.Errors.CepRequired);
+            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == Cep.Errors.CepInvalidPattern);
 
             AssertInvalidCepComponents(cep);
         }
@@ -47,8 +47,8 @@ namespace ViaCepClient.Testing.Models
             cep.IsValid().Should().BeFalse();
 
             cep.GetValidationErrors().Should().NotBeEmpty();
-            cep.GetValidationErrors().Should().NotContain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == "CEP_REQUIRED");
-            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == "CEP_INVALID_PATTERN");
+            cep.GetValidationErrors().Should().NotContain(err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == Cep.Errors.CepRequired);
+            cep.GetValidationErrors().Should().Contain   (err => err.PropertyName == nameof(Cep.CepValue) && err.ErrorCode == Cep.Errors.CepInvalidPattern);
 
             AssertInvalidCepComponents(cep);
         }

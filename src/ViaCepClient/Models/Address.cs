@@ -47,22 +47,58 @@ namespace ViaCepClient.Models
         protected override void PerformValidation()
         {
             if (!StateAbbreviation.NotNullOrEmpty())
-                AddError(nameof(StateAbbreviation), "STATE_ABBREVIATION_REQUIRED", "State Abbreviation is required");
+                AddError(nameof(StateAbbreviation), Errors.StateAbbreviationRequired, "State Abbreviation is required");
 
             if (!City.NotNullOrEmpty())
-                AddError(nameof(City), "CITY_REQUIRED", "City is required");
+                AddError(nameof(City), Errors.CityRequired, "City is required");
 
             if (!StreetName.NotNullOrEmpty())
-                AddError(nameof(StreetName), "STREET_NAME_REQUIRED", "Street name is required");
+                AddError(nameof(StreetName), Errors.StreetNameRequired, "Street name is required");
 
             if (!StateAbbreviation.HasLength(2))
-                AddError(nameof(StateAbbreviation), "STATE_ABBREVIATION_INVALID_LENGTH", "State Abbreviation length must be 2");
+                AddError(nameof(StateAbbreviation), Errors.StateAbbreviationInvalidLength, "State Abbreviation length must be 2");
 
             if (!City.HasMinLength(3))
-                AddError(nameof(City), "CITY_INVALID_LENGTH", "City length must be at least 3");
+                AddError(nameof(City), Errors.CityInvalidLength, "City length must be at least 3");
 
             if (!StreetName.HasMinLength(3))
-                AddError(nameof(StreetName), "STREET_NAME_INVALID_LENGTH", "Street name length must be at least 3");
+                AddError(nameof(StreetName), Errors.StreetNameInvalidLength, "Street name length must be at least 3");
+        }
+
+        /// <summary>
+        /// Error codes
+        /// </summary>
+        public static class Errors
+        {
+            /// <summary>
+            /// Error code when state abbreviation is required
+            /// </summary>
+            public static readonly string StateAbbreviationRequired = "STATE_ABBREVIATION_REQUIRED";
+            
+            /// <summary>
+            /// Error code when city is required
+            /// </summary>
+            public static readonly string CityRequired= "CITY_REQUIRED";
+            
+            /// <summary>
+            /// Error code when street name is required
+            /// </summary>
+            public static readonly string StreetNameRequired = "STREET_NAME_REQUIRED";
+            
+            /// <summary>
+            /// Error code when state abbreviation has invalid length
+            /// </summary>
+            public static readonly string StateAbbreviationInvalidLength = "STATE_ABBREVIATION_INVALID_LENGTH";
+            
+            /// <summary>
+            /// Error code when city has invalid length
+            /// </summary>
+            public static readonly string CityInvalidLength = "CITY_INVALID_LENGTH";
+            
+            /// <summary>
+            /// Error code when street name has invalid length
+            /// </summary>
+            public static readonly string StreetNameInvalidLength = "STREET_NAME_INVALID_LENGTH";
         }
     }
 }

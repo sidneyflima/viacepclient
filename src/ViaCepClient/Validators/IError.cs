@@ -19,6 +19,6 @@ namespace ViaCepClient.Validators
         /// <summary>
         /// Error Message
         /// </summary>
-        public string ErrorMessage { get; }
+        string ErrorMessage { get; }
     }
 }

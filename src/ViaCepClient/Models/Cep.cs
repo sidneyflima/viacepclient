@@ -41,10 +41,10 @@ namespace ViaCepClient.Models
         protected override void PerformValidation()
         {
             if (!CepValue.NotNullOrEmpty())
-                AddError(nameof(CepValue), "CEP_REQUIRED", "Cep is required");
+                AddError(nameof(CepValue), Errors.CepRequired, "Cep is required");
 
             if (!CepValue.RegexMatches(@"^(\d{5}\-\d{3})|(\d{8})$"))
-                AddError(nameof(CepValue), "CEP_INVALID_PATTERN", "Cep pattern is required");
+                AddError(nameof(CepValue), Errors.CepInvalidPattern, "Cep pattern is required");
         }
 
         /// <summary>
@@ -122,6 +122,22 @@ namespace ViaCepClient.Models
         public override string ToString()
         {
             return CepValue;
+        }
+
+        /// <summary>
+        /// Error codes
+        /// </summary>
+        public static class Errors
+        {
+            /// <summary>
+            /// Error code when cep is required
+            /// </summary>
+            public static readonly string CepRequired = "CEP_REQUIRED";
+
+            /// <summary>
+            /// Error code when cep has invalid pattern
+            /// </summary>
+            public static readonly string CepInvalidPattern = "CEP_INVALID_PATTERN";
         }
     }
 }
