@@ -25,15 +25,10 @@ namespace ViaCepClient.Http
         /// <summary>
         /// GetAsync is responsible for send a rest request
         /// </summary>
-        public Task<RestResponse> GetAsync(Uri uri)
+        public async Task<RestResponse> GetAsync(Uri uri)
         {
-            return _httpClient
-                    .GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
-                    .ContinueWith(previousTask => 
-                    {
-                        HttpResponseMessage responseMessage = previousTask.GetAwaiter().GetResult();
-                        return new RestResponse(responseMessage, HttpMethod.Get, uri);
-                    });
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+            return new RestResponse(responseMessage, HttpMethod.Get, uri);
         }
     }
 }
