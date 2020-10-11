@@ -5,34 +5,54 @@ namespace ViaCepClient.Models
     /// </summary>
     public class CepDetails
     {
-        /// <summary> Cep </summary>
+        /// <summary> 
+        /// Cep (cep) 
+        /// </summary>
         public string Cep { get; }
 
-        /// <summary> Address </summary>
+        /// <summary> 
+        /// Address (logradouro) 
+        /// </summary>
         public string Address { get; }
 
-        /// <summary> Address complement </summary>
+        /// <summary> 
+        /// Address complement (complemento) 
+        /// </summary>
         public string Complement { get; }
 
-        /// <summary> Neighbourhood </summary>
+        /// <summary> 
+        /// Neighbourhood (bairro) 
+        /// </summary>
         public string Neighbourhood { get; }
 
-        /// <summary> City </summary>
+        /// <summary> 
+        /// City (localidade) 
+        /// </summary>
         public string City { get; }
 
-        /// <summary> Federative Unit </summary>
+        /// <summary> 
+        /// Federative Unit (uf) 
+        /// </summary>
         public string FederativeUnit { get; }
 
-        /// <summary> IBGE </summary>
+        /// <summary> 
+        /// IBGE (ibge) 
+        /// </summary>
         public string IBGE { get; }
 
-        /// <summary> Gia </summary>
+        /// <summary> 
+        /// Gia (gia) 
+        /// </summary>
         public string GIA  { get; }
 
-        /// <summary> DDD </summary>
+        /// <summary> 
+        /// DDD (ddd) 
+        /// </summary>
         public string DDD { get; }
 
-        /// <summary> Siafi </summary>
+        /// <summary> 
+        /// Siafi (siafi) 
+        /// </summary>
         public string Siafi { get; }
 
         /// <summary>
