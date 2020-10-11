@@ -1,7 +1,12 @@
+using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ViaCepClient.Http
@@ -20,6 +25,16 @@ namespace ViaCepClient.Http
         /// Requested Http Method
         /// </summary>
         public HttpMethod Method { get; }
+
+        /// <summary>
+        /// Response Headers
+        /// </summary>
+        public ResponseHeaders Headers { get; }
+
+        /// <summary>
+        /// Response Content Headers
+        /// </summary>
+        public ResponseHeaders ContentHeaders { get; }
 
         /// <summary>
         /// Requested Uri
@@ -42,12 +57,14 @@ namespace ViaCepClient.Http
         /// </summary>
         public RestResponse(HttpResponseMessage responseMessage, HttpMethod method, Uri requestedUri)
         {
-            _responseMessage     = responseMessage;
-            IsSuccessfulResponse = responseMessage.IsSuccessStatusCode;
+            Headers         = new ResponseHeaders(responseMessage.Headers);
+            ContentHeaders  = new ResponseHeaders(responseMessage.Content.Headers);
+            Method          = method;
+            Uri             = requestedUri;
+            StatusCode      = responseMessage.StatusCode;
 
-            Method      = method;
-            Uri         = requestedUri;
-            StatusCode  = responseMessage.StatusCode;
+            IsSuccessfulResponse = responseMessage.IsSuccessStatusCode;
+            _responseMessage     = responseMessage;
         }
 
         /// <summary>
@@ -56,6 +73,47 @@ namespace ViaCepClient.Http
         public Task<Stream> GetResponseStream()
         {
             return _responseMessage.Content.ReadAsStreamAsync();
+        }
+
+        /// <summary>
+        /// Wrapper for response headers
+        /// </summary>
+        public class ResponseHeaders
+        {
+            /// <summary>
+            /// Http Response Message
+            /// </summary>
+            IDictionary<string, IEnumerable<string>> _headerValues;
+
+            /// <summary>
+            /// Wrapper for response headers
+            /// </summary>
+            public ResponseHeaders(HttpHeaders responseHeaders)
+            {
+                _headerValues = responseHeaders.ToDictionary(e => e.Key, e => e.Value);
+            }
+
+            /// <summary>
+            /// Get header values from header name
+            /// </summary>
+            public IEnumerable<string> this[string headerName]
+            {
+                get
+                {
+                    if (!_headerValues.TryGetValue(headerName, out IEnumerable<string> headerValues))
+                        headerValues = Enumerable.Empty<string>();
+
+                    return headerValues;
+                }
+            }
+
+            /// <summary>
+            /// Get all response header names
+            /// </summary>
+            public IEnumerable<string> Headers
+            {
+                get => _headerValues.Keys;
+            }
         }
     }
 }
