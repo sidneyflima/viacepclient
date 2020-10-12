@@ -1,4 +1,5 @@
 using System;
+using ViaCepClient.Messages;
 using ViaCepClient.Validators;
 
 namespace ViaCepClient.Models
@@ -41,10 +42,10 @@ namespace ViaCepClient.Models
         protected override void PerformValidation()
         {
             if (!Value.NotNullOrEmpty())
-                AddError(nameof(Value), Errors.CepRequired, "Cep is required");
+                AddError(nameof(Value), ErrorCodes.CepRequired, "Cep is required");
 
             if (!Value.RegexMatches(@"^(\d{5}\-\d{3})|(\d{8})$"))
-                AddError(nameof(Value), Errors.CepInvalidPattern, "Cep pattern is required");
+                AddError(nameof(Value), ErrorCodes.CepInvalidPattern, "Cep does not match with required pattern");
         }
 
         /// <summary>
@@ -122,22 +123,6 @@ namespace ViaCepClient.Models
         public override string ToString()
         {
             return Value;
-        }
-
-        /// <summary>
-        /// Error codes
-        /// </summary>
-        public static class Errors
-        {
-            /// <summary>
-            /// Error code when cep is required
-            /// </summary>
-            public static readonly string CepRequired = "CEP_REQUIRED";
-
-            /// <summary>
-            /// Error code when cep has invalid pattern
-            /// </summary>
-            public static readonly string CepInvalidPattern = "CEP_INVALID_PATTERN";
         }
     }
 }

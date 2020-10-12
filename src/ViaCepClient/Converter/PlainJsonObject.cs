@@ -7,7 +7,7 @@ namespace ViaCepClient.Converter
     /// PlainJsonObject represents a reader wrapper 
     /// for plain json reading
     /// </summary>
-    public class PlainJsonObject : IPlainJsonObject
+    public struct PlainJsonObject : IPlainJsonObject
     {
         private JsonDocument _jsonDocument;
 
@@ -32,7 +32,15 @@ namespace ViaCepClient.Converter
                 if(!root.TryGetProperty(key, out JsonElement property))
                     return null;
 
-                return property.GetString();
+                switch(property.ValueKind)
+                {
+                    case JsonValueKind.Null:
+                    case JsonValueKind.Undefined:
+                    case JsonValueKind.String:
+                        return property.GetString();
+                    default:
+                        return property.GetRawText();
+                }
             }
         }
     }

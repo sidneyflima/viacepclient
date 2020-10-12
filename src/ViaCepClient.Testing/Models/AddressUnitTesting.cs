@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using ViaCepClient.Messages;
 using ViaCepClient.Models;
 using Xunit;
 
@@ -21,9 +22,9 @@ namespace ViaCepClient.Testing.Models
             
             address.GetValidationErrors()
                 .Should()
-                .Contain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == Address.Errors.CityRequired).And
-                .Contain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == Address.Errors.StateAbbreviationRequired).And
-                .Contain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == Address.Errors.StreetNameRequired);
+                .Contain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == ErrorCodes.CityRequired).And
+                .Contain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == ErrorCodes.StateAbbreviationRequired).And
+                .Contain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == ErrorCodes.StreetNameRequired);
 
         }
 
@@ -42,15 +43,15 @@ namespace ViaCepClient.Testing.Models
             
             address.GetValidationErrors()
                 .Should()
-                .NotContain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == Address.Errors.CityRequired).And
-                .NotContain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == Address.Errors.StateAbbreviationRequired).And
-                .NotContain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == Address.Errors.StreetNameRequired);
+                .NotContain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == ErrorCodes.CityRequired).And
+                .NotContain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == ErrorCodes.StateAbbreviationRequired).And
+                .NotContain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == ErrorCodes.StreetNameRequired);
             
             address.GetValidationErrors()
                 .Should()
-                .Contain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == Address.Errors.CityInvalidLength).And
-                .Contain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == Address.Errors.StateAbbreviationInvalidLength).And
-                .Contain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == Address.Errors.StreetNameInvalidLength);
+                .Contain(err => err.PropertyName == nameof(Address.City)                 && err.ErrorCode == ErrorCodes.CityInvalidLength).And
+                .Contain(err => err.PropertyName == nameof(Address.StateAbbreviation)    && err.ErrorCode == ErrorCodes.StateAbbreviationInvalidLength).And
+                .Contain(err => err.PropertyName == nameof(Address.StreetName)           && err.ErrorCode == ErrorCodes.StreetNameInvalidLength);
         }
 
         [Fact]

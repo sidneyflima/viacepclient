@@ -8,17 +8,17 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ViaCepClient.Converter;
 using ViaCepClient.Http;
-using ViaCepClient.Testing.Http.Fixture;
+using ViaCepClient.Testing.Fixture;
 using Xunit;
 
 namespace ViaCepClient.Testing.Http
 {
-    [Collection(nameof(Fixture.ViaCepIntegrationFixtureCollection))]
+    [Collection(nameof(ViaCepIntegrationFixtureCollection))]
     public class RestClientTesting
     {
-        Fixture.HttpIntegrationFixture<ViaCepMockedStartup> _viaCepFixture;
+        HttpIntegrationFixture<ViaCepMockedStartup> _viaCepFixture;
 
-        public RestClientTesting(Fixture.HttpIntegrationFixture<ViaCepMockedStartup> viaCepFixture)
+        public RestClientTesting(HttpIntegrationFixture<ViaCepMockedStartup> viaCepFixture)
         {
             _viaCepFixture = viaCepFixture;
         }
@@ -30,8 +30,8 @@ namespace ViaCepClient.Testing.Http
             HttpClient  httpClient = _viaCepFixture.Client;
             IRestClient restClient = new RestClient(httpClient);
 
-            string cep = "12";
-            Uri uri    = new Uri($"http://localhost/ws/{cep}/json/");
+            string cep  = "12";
+            Uri uri     = new Uri($"http://viacep.com.br/ws/{cep}/json/");
 
             //When
             RestResponse response = await restClient.GetAsync(uri);
@@ -67,7 +67,7 @@ namespace ViaCepClient.Testing.Http
                         .Append("}")
                         .ToString();
 
-            Uri uri = new Uri($"http://localhost/ws/{cep}/json/");
+            Uri uri = new Uri($"http://viacep.com.br/ws/{cep}/json/");
 
             //When
             RestResponse response       = await restClient.GetAsync(uri);
@@ -104,8 +104,8 @@ namespace ViaCepClient.Testing.Http
             string ddd              = "11";
             string siafi            = "7107";
 
-            Uri uri = new Uri($"http://localhost/ws/{cep}/json/");
-            
+            Uri uri = new Uri($"http://viacep.com.br/ws/{cep}/json/");
+
             RestResponse response = await restClient.GetAsync(uri);
 
             //When

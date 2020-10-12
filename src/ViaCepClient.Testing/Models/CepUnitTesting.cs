@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using ViaCepClient.Messages;
 using ViaCepClient.Models;
 using Xunit;
 
@@ -33,8 +34,8 @@ namespace ViaCepClient.Testing.Models
             cep.HasHyphen.Should().BeFalse();
 
             cep.GetValidationErrors().Should().NotBeEmpty();
-            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == Cep.Errors.CepRequired);
-            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == Cep.Errors.CepInvalidPattern);
+            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == ErrorCodes.CepRequired);
+            cep.GetValidationErrors().Should().Contain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == ErrorCodes.CepInvalidPattern);
 
             AssertInvalidCepComponents(cep);
         }
@@ -47,8 +48,8 @@ namespace ViaCepClient.Testing.Models
             cep.IsValid().Should().BeFalse();
 
             cep.GetValidationErrors().Should().NotBeEmpty();
-            cep.GetValidationErrors().Should().NotContain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == Cep.Errors.CepRequired);
-            cep.GetValidationErrors().Should().Contain   (err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == Cep.Errors.CepInvalidPattern);
+            cep.GetValidationErrors().Should().NotContain(err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == ErrorCodes.CepRequired);
+            cep.GetValidationErrors().Should().Contain   (err => err.PropertyName == nameof(Cep.Value) && err.ErrorCode == ErrorCodes.CepInvalidPattern);
 
             AssertInvalidCepComponents(cep);
         }

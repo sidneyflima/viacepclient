@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using ViaCepClient.Models;
 
-namespace ViaCepClient
+namespace ViaCepClient.Client
 {
     /// <summary>
     /// IViaCepClient represents a client for ViaCep webservice
@@ -11,6 +11,6 @@ namespace ViaCepClient
         /// <summary>
         /// Get cep details information from cep
         /// </summary>
-        Task<ResponseMessage<CepDetails>> SendRequest(Cep cep);
+        Task<ResponseMessage<CepDetails>> SendRequestAsync(Cep cep);
     }
 }
